@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <bitset>
 
 void square_equation_solution(){
     double a, b, c;
@@ -94,6 +95,19 @@ void second_occurrence_of_f(){
         }
     }
     std::cout << found_index;
+}
+
+int gcd(int a, int b) {
+    if (b == 0)
+        return a;
+    return gcd(b, a % b);
+}
+
+void convert_to_binary_string(){
+    int n;
+    std::cin >> n;
+    std::string res = std::bitset<32>(n).to_string();
+    std::cout << std::string(res.begin() + res.find('1'), res.end());
 }
 
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
