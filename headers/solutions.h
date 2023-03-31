@@ -33,4 +33,14 @@ void square_equation_solution(){
     }
 }
 
+void so_called_impossible_func(){
+    int a, b;
+    std::cin >> a >> b;
+    if(b != 0){
+        std::cout << a / b;
+    }else{
+        std::cout << "Impossible";
+    }
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
