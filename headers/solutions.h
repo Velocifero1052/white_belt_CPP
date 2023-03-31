@@ -55,4 +55,45 @@ void price_calculations(){
     std::cout << final_price;
 }
 
+void print_even_numbers(){
+    int x, y, i;
+    bool first = true;
+    std::cin >> x >> y;
+
+    if (x == y && x % 2 == 0){
+        std::cout << x;
+        return;
+    }else if(x % 2 == 0){
+        i = x;
+    }else{
+        i = x + 1;
+    }
+
+    for(; i <= y; i += 2){
+        if(first){
+            std::cout << i;
+            first = false;
+        }else{
+            std::cout << " " << i;
+        }
+    }
+}
+
+void second_occurrence_of_f(){
+    std::string word;
+    std::cin >> word;
+    int found_index = -2;
+    auto first = true;
+    for(auto i = 0; i < word.length(); i++){
+        if(word[i] == 'f' && first) {
+            found_index = -1;
+            first = false;
+        }else if(word[i] == 'f' && !first){
+            found_index = i;
+            break;
+        }
+    }
+    std::cout << found_index;
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
