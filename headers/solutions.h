@@ -43,4 +43,16 @@ void so_called_impossible_func(){
     }
 }
 
+void price_calculations(){
+    double n, a, b, x, y, final_price;
+    std::cin >> n >> a >> b >> x >> y;
+    final_price = n;
+    if(n > a && n > b)
+        final_price = n - n * (y / 100.0);
+    else if(n > a && n <= b)
+        final_price = n - n * (x / 100.0);
+
+    std::cout << final_price;
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
