@@ -1,8 +1,6 @@
-
-//#include "headers/solutions.h"
-
-#include <iostream>
-
+//
+// Created by comme on 4/2/2023.
+//
 int Factorial(int a){
     if(a < 0){
         return 1;
@@ -13,11 +11,3 @@ int Factorial(int a){
     }
     return res;
 }
-
-
-int main() {
-
-
-    return 0;
-}
-
