@@ -3,38 +3,46 @@
 
 #include <iostream>
 #include <vector>
-#include <numeric>
+#include <algorithm>
 
 using namespace std;
 
 int main() {
-    int size_of_vector;
-    cin >> size_of_vector;
-    vector<int> temps(size_of_vector);
+    vector<int> people;
 
-    for(int i = 0; i < size_of_vector; i++){
-        int temp;
-        cin >> temp;
-        temps[i] = temp;
-    }
-
-    int common_value = accumulate(temps.begin(), temps.end(), 0) / temps.size();
-    vector<int>higher_that_average;
-
-    for(int i = 0; i < size_of_vector; i++){
-        if(temps[i] > common_value)
-            higher_that_average.push_back(i);
-    }
-
-
-    cout << higher_that_average.size() << endl;
-    bool first = true;
-    for(auto elem: higher_that_average){
-        if(first){
-            cout << elem;
-            first = false;
-        }else{
-            cout << " " << elem;
+    int number_of_commands;
+    cin >> number_of_commands;
+    int default_value = 1;
+    int worry_value = -1;
+    string command;
+    for(int i = 0; i < number_of_commands; i++){
+        cin >> command;
+        if (command == "WORRY") {
+            int index;
+            cin >> index;
+            people[index] = worry_value;
+        }
+        else if (command == "QUIET") {
+            int index;
+            cin >> index;
+            people[index] = default_value;
+        }
+        else if (command == "COME") {
+            int number;
+            cin >> number;
+            if(number > 0){
+                for(int j = 0; j < number; j++){
+                    people.push_back(default_value);
+                }
+            }else if(number < 0){
+                number = -number;
+                for(int j = 0; j < number; j++){
+                    people.pop_back();
+                }
+            }
+        }
+        else if (command == "WORRY_COUNT") {
+            cout << count(people.begin(), people.end(), worry_value) << endl;
         }
     }
 

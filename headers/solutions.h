@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cmath>
 #include <bitset>
+#include <vector>
+#include <numeric>
 
 void square_equation_solution(){
     double a, b, c;
@@ -109,5 +111,38 @@ void convert_to_binary_string(){
     std::string res = std::bitset<32>(n).to_string();
     std::cout << std::string(res.begin() + res.find('1'), res.end());
 }
+
+void lower_than_average(){
+    int size_of_vector;
+    std::cin >> size_of_vector;
+    std::vector<int> temps(size_of_vector);
+
+    for(int i = 0; i < size_of_vector; i++){
+        int temp;
+        std::cin >> temp;
+        temps[i] = temp;
+    }
+
+    int common_value = std::accumulate(temps.begin(), temps.end(), 0) / temps.size();
+    std::vector<int>higher_that_average;
+
+    for(int i = 0; i < size_of_vector; i++){
+        if(temps[i] > common_value)
+            higher_that_average.push_back(i);
+    }
+
+
+    std::cout << higher_that_average.size() << std::endl;
+    bool first = true;
+    for(auto elem: higher_that_average){
+        if(first){
+            std::cout << elem;
+            first = false;
+        }else{
+            std::cout << " " << elem;
+        }
+    }
+}
+
 
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
