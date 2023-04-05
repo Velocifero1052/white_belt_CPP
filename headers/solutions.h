@@ -10,6 +10,7 @@
 #include <bitset>
 #include <vector>
 #include <numeric>
+#include <algorithm>
 
 void square_equation_solution(){
     double a, b, c;
@@ -144,5 +145,44 @@ void lower_than_average(){
     }
 }
 
+void worry_count(){
+    std::vector<int> people;
+
+    int number_of_commands;
+    std::cin >> number_of_commands;
+    int default_value = 1;
+    int worry_value = -1;
+    std::string command;
+    for(int i = 0; i < number_of_commands; i++){
+        std::cin >> command;
+        if (command == "WORRY") {
+            int index;
+            std::cin >> index;
+            people[index] = worry_value;
+        }
+        else if (command == "QUIET") {
+            int index;
+            std::cin >> index;
+            people[index] = default_value;
+        }
+        else if (command == "COME") {
+            int number;
+            std::cin >> number;
+            if(number > 0){
+                for(int j = 0; j < number; j++){
+                    people.push_back(default_value);
+                }
+            }else if(number < 0){
+                number = -number;
+                for(int j = 0; j < number; j++){
+                    people.pop_back();
+                }
+            }
+        }
+        else if (command == "WORRY_COUNT") {
+            std::cout << std::count(people.begin(), people.end(), worry_value) << std::endl;
+        }
+    }
+}
 
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
