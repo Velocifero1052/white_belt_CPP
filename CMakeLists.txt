@@ -7,4 +7,7 @@ include_directories(headers)
 
 add_executable(white_belt_CPP
         headers/solutions.h
-        main.cpp src/factorial.cpp src/is_palindrome.cpp src/funcs.cpp)
+        src/factorial.cpp
+        src/funcs.cpp
+        src/is_palindrome.cpp
+        main.cpp)

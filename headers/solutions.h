@@ -185,4 +185,66 @@ void worry_count(){
     }
 }
 
+void print_tasks(const std::vector<std::string>& tasks){
+    std::cout << tasks.size();
+    for(const auto & task : tasks){
+        std::cout << " " << task;
+    }
+    std::cout << std::endl;
+}
+
+void task_manager(){
+    int number_of_month = 12;
+    int current_position = 0;
+    std::vector<std::vector<std::string>> tasks(31);
+    std::vector<int> days_count(number_of_month);
+    days_count[0] = 30;
+    days_count[1] = 27;
+    days_count[2] = 30;
+    days_count[3] = 29;
+    days_count[4] = 30;
+    days_count[5] = 29;
+    days_count[6] = 30;
+    days_count[7] = 30;
+    days_count[8] = 29;
+    days_count[9] = 30;
+    days_count[10] = 29;
+    days_count[11] = 30;
+
+    int command_count;
+    std::cin >> command_count;
+
+    for(int command_number = 0; command_number < command_count; command_number++){
+        std::string command;
+
+        std::cin >> command;
+        if(command == "ADD"){
+            int day;
+            std::string task;
+            std::cin >> day >> task;
+            tasks[day - 1].push_back(task);
+        }else if(command == "DUMP"){
+            int day;
+            std::cin >> day;
+            print_tasks(tasks[day - 1]);
+        }else if(command == "NEXT"){
+            int prev_position = current_position;
+            if(current_position == number_of_month - 1)
+                current_position = 0;
+            else
+                current_position++;
+            int prev_last_day = days_count[prev_position];
+            int current_last_day = days_count[current_position];
+            if(current_last_day < prev_last_day){
+                for(int i = current_last_day + 1; i <= prev_last_day; i++){
+                    tasks[current_last_day].insert(tasks[current_last_day].end(),
+                                                   tasks[i].begin(),
+                                                   tasks[i].end());
+                    tasks[i].clear();
+                }
+            }
+        }
+    }
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
