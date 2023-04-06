@@ -247,4 +247,19 @@ void task_manager(){
     }
 }
 
+void anagram_check(){
+    int count;
+    std::cin >> count;
+    for(int i = 0; i < count; i++){
+        std::string first, second;
+        std::cin >> first >> second;
+        sort(first.begin(), first.end());
+        sort(second.begin(), second.end());
+        if(first == second)
+            std::cout << "YES" << std::endl;
+        else
+            std::cout << "NO" << std::endl;
+    }
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
