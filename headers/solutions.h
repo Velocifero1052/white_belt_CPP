@@ -321,4 +321,107 @@ void capitals_and_countries(){
     }
 }
 
+void print_vector(const std::vector<std::string>& vector, std::string to_exclude, bool exclusion){
+    bool first = true;
+    for(const std::string& s : vector){
+        if(exclusion){
+            if(s == to_exclude){
+                continue;
+            }
+        }
+        if (first){
+            first = false;
+            std::cout << s;
+        }else{
+            std::cout << " " << s;
+        }
+    }
+    std::cout << std::endl;
+}
+
+void bus_stops_one(){
+    std::map<std::string, std::vector<std::string>> stops_to_buses;
+    std::map<std::string, std::vector<std::string>> buses_to_stops;
+    int command_count;
+    std::cin >> command_count;
+
+    for (int i = 0; i < command_count; i++){
+        std::string command;
+        std::cin >> command;
+        if(command == "NEW_BUS"){
+            //NEW_BUS bus stop_count stop1 stop2 ...
+            std::string bus;
+            int stop_count;
+            std::cin >> bus >> stop_count;
+            for(int j = 0; j < stop_count; j++){
+                std::string stop;
+                std::cin >> stop;
+                if(stops_to_buses.count(stop) == 0){
+                    stops_to_buses[stop] = {};
+                }
+                if(buses_to_stops.count(bus) == 0){
+                    buses_to_stops[bus] = {};
+                }
+                stops_to_buses[stop].push_back(bus);
+                buses_to_stops[bus].push_back(stop);
+            }
+        } else if(command == "BUSES_FOR_STOP"){
+            std::string stop;
+            std::cin >> stop;
+            if(stops_to_buses.count(stop) == 0){
+                std::cout << "No stop" << std::endl;
+            }else{
+                print_vector(stops_to_buses[stop], "", false);
+            }
+        } else if(command == "STOPS_FOR_BUS"){
+            std::string bus;
+            std::cin >> bus;
+            if(buses_to_stops.count(bus) == 0){
+                std::cout << "No bus" << std::endl;
+            }else{
+                for(const auto& stop: buses_to_stops[bus]){
+                    std::cout << "Stop " << stop << ": ";
+                    if(stops_to_buses[stop].size() == 1){
+                        std::cout << "no interchange" << std::endl;
+                    }else{
+                        print_vector(stops_to_buses[stop], bus, true);
+                    }
+                }
+            }
+        } else if(command == "ALL_BUSES"){
+            if(buses_to_stops.empty()){
+                std::cout << "No buses" << std::endl;
+            }else{
+                for(const auto& bus: buses_to_stops){
+                    std::cout << "Bus " << bus.first << ": ";
+                    print_vector(bus.second, "", false);
+                }
+            }
+        }
+    }
+}
+
+void bus_stops_two(){
+    map<std::vector<std::string>, int> directions;
+    int command_count;
+    std::cin >> command_count;
+    int direction_count = 0;
+    for(int i = 0; i < command_count; i++){
+        int stops_count;
+        std::cin >> stops_count;
+        std::vector<std::string> stops(stops_count);
+        for (int j = 0; j < stops_count; j++){
+            std::string stop;
+            std::cin >> stop;
+            stops.push_back(stop);
+        }
+        if(directions.count(stops) == 0){
+            direction_count++;
+            directions[stops] = direction_count;
+            std::cout << "New bus " << direction_count << std::endl;
+        }else{
+            std::cout << "Already exists for " << directions[stops] << std::endl;
+        }
+    }
+}
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
