@@ -9,6 +9,7 @@
 #include <cmath>
 #include <bitset>
 #include <vector>
+#include <map>
 #include <numeric>
 #include <algorithm>
 
@@ -259,6 +260,64 @@ void anagram_check(){
             std::cout << "YES" << std::endl;
         else
             std::cout << "NO" << std::endl;
+    }
+}
+
+void capitals_and_countries(){
+    std::map<std::string, std::string>capitals;
+    int command_count;
+    std::cin >> command_count;
+
+    for(int i = 0; i < command_count; i++){
+        std::string command;
+        std::cin >> command;
+        if(command == "CHANGE_CAPITAL"){
+            std::string country, new_capital;
+            std::cin >> country >> new_capital;
+            if(capitals.count(country) == 0){
+                std::cout << "Introduce new country " << country << " with capital " << new_capital << std::endl;
+                capitals[country] = new_capital;
+            }else if(capitals[country] == new_capital){
+                std::cout << "Country " << country << " hasn't changed its capital" << std::endl;
+            }else{
+                std::cout << "Country " << country << " has changed its capital from " << capitals[country] << " to " << new_capital << std::endl;
+                capitals[country] = new_capital;
+            }
+        }else if(command == "RENAME"){
+            std::string old_country_name, new_country_name;
+            std::cin >> old_country_name >> new_country_name;
+            if(old_country_name == new_country_name || capitals.count(old_country_name) == 0 || capitals.count(new_country_name) == 1){
+                std::cout << "Incorrect rename, skip" << std::endl;
+            }else{
+                std::string capital = capitals[old_country_name];
+                std::cout << "Country " << old_country_name << " with capital " << capital << " has been renamed to " << new_country_name << std::endl;
+                capitals.erase(old_country_name);
+                capitals[new_country_name] = capital;
+            }
+        }else if(command == "ABOUT"){
+            std::string country;
+            std::cin >> country;
+            if(capitals.count(country) == 0){
+                std::cout << "Country " << country << " doesn't exist" << std::endl;
+            }else{
+                std::cout << "Country " << country << " has capital " << capitals[country] << std::endl;
+            }
+        }else if(command == "DUMP"){
+            if(capitals.empty()){
+                std::cout << "There are no countries in the world" << std::endl;
+            }else{
+                bool first = true;
+                for(const auto& [key, value]: capitals){
+                    if(first){
+                        std::cout << key << "/" << value;
+                        first = false;
+                    }else{
+                        std::cout << " " << key << "/" << value;
+                    }
+                }
+                std::cout << std::endl;
+            }
+        }
     }
 }
 
