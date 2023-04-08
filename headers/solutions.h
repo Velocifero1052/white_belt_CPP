@@ -434,4 +434,68 @@ std::set<std::string> BuildMapValuesSet(const std::map<int, std::string>& m){
     return res;
 }
 
+void synonyms(){
+
+    std::map<std::string, std::set<std::string>> synonyms;
+
+    int n;
+    std::cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        std::string s;
+        std::cin >> s;
+        if (s == "ADD"){
+            std::string word, synonym;
+            std::cin >> word >> synonym;
+            synonyms[word].insert(synonym);
+            synonyms[synonym].insert(word);
+        }else if (s == "COUNT"){
+            std::string word;
+            std::cin >> word;
+            if(synonyms.count(word) == 0){
+                std::cout << 0 << std::endl;
+            }else{
+                std::cout << synonyms[word].size() << std::endl;
+            }
+        }else if(s == "CHECK"){
+            std::string word, synonym;
+            std::cin >> word >> synonym;
+            if(synonyms.count(word) == 0){
+                std::cout << "NO" << std::endl;
+            }else{
+                if(synonyms[word].count(synonym) == 0){
+                    std::cout << "NO" << std::endl;
+                }else{
+                    std::cout << "YES" << std::endl;
+                }
+            }
+        }
+    }
+
+}
+
+void bus_stops_three(){
+    std::map<std::set<std::string>, int> directions;
+    int command_count;
+    std::cin >> command_count;
+    int direction_count = 0;
+    for(int i = 0; i < command_count; i++){
+        int stops_count;
+        std::cin >> stops_count;
+        std::set<std::string> stops;
+        for (int j = 0; j < stops_count; j++){
+            std::string stop;
+            std::cin >> stop;
+            stops.insert(stop);
+        }
+        if(directions.count(stops) == 0){
+            direction_count++;
+            directions[stops] = direction_count;
+            std::cout << "New bus " << direction_count << std::endl;
+        }else{
+            std::cout << "Already exists for " << directions[stops] << std::endl;
+        }
+    }
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
