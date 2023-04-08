@@ -10,6 +10,7 @@
 #include <bitset>
 #include <vector>
 #include <map>
+#include <set>
 #include <numeric>
 #include <algorithm>
 
@@ -402,7 +403,7 @@ void bus_stops_one(){
 }
 
 void bus_stops_two(){
-    map<std::vector<std::string>, int> directions;
+    std::map<std::vector<std::string>, int> directions;
     int command_count;
     std::cin >> command_count;
     int direction_count = 0;
@@ -424,4 +425,13 @@ void bus_stops_two(){
         }
     }
 }
+
+std::set<std::string> BuildMapValuesSet(const std::map<int, std::string>& m){
+    std::set<std::string> res;
+    for(const auto & [key, value]: m){
+        res.insert(value);
+    }
+    return res;
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
