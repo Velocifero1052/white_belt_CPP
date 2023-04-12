@@ -498,4 +498,32 @@ void bus_stops_three(){
     }
 }
 
+void sort_case_insensitive(){
+    int n;
+    std::cin >> n;
+    std::vector<std::string> v(n);
+    for (int i = 0; i < n; ++i) {
+        std::cin >> v[i];
+    }
+
+    sort(v.begin(), v.end(), [](std::string x, std::string y) {
+        transform(x.begin(), x.end(), x.begin(),
+                  [](unsigned char c){ return std::tolower(c); });
+        transform(y.begin(), y.end(), y.begin(),
+                  [](unsigned char c){ return std::tolower(c); });
+        return x < y;
+    });
+
+    bool first = true;
+    for (int i = 0; i < n; ++i) {
+        if (first) {
+            std::cout << v[i];
+            first = false;
+        }else {
+            std::cout << " " << v[i];
+        }
+    }
+}
+
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
