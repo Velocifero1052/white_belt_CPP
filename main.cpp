@@ -12,6 +12,7 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::map;
+using std::prev;
 
 class Person {
 public:
@@ -23,15 +24,15 @@ public:
     }
     string GetFullName(int year) {
 
-        auto name_search_res =  find_if(years_to_names.begin(), years_to_names.end(), [year](const std::pair<int, string>& entry)-> bool {
+        auto name_search_res =  find_if(years_to_names.rbegin(), years_to_names.rend(), [year](const std::pair<int, string>& entry)-> bool {
             return entry.first <= year;
         });
-        auto lastname_search_res =  find_if(years_to_lastnames.begin(), years_to_lastnames.end(), [year](const std::pair<int, string>& entry)-> bool {
+        auto lastname_search_res =  find_if(years_to_lastnames.rbegin(), years_to_lastnames.rend(), [year](const std::pair<int, string>& entry)-> bool {
             return entry.first <= year;
         });
 
-        bool name_found = name_search_res != years_to_names.end();
-        bool lastname_found = lastname_search_res != years_to_lastnames.end();
+        bool name_found = name_search_res != years_to_names.rend();
+        bool lastname_found = lastname_search_res != years_to_lastnames.rend();
 
         if(name_found && lastname_found){
             return name_search_res->second + " " + lastname_search_res->second;
