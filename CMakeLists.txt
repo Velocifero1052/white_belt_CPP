@@ -10,4 +10,4 @@ add_executable(white_belt_CPP
         src/factorial.cpp
         src/funcs.cpp
         src/is_palindrome.cpp
-        main.cpp src/SortedStrings.cpp src/Person.cpp src/ReversibleString.cpp)
+        main.cpp src/SortedStrings.cpp src/Person.cpp src/ReversibleString.cpp src/Person2.cpp src/Person3.cpp)
