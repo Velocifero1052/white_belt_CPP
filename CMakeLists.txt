@@ -11,3 +11,5 @@ add_executable(white_belt_CPP
         src/funcs.cpp
         src/is_palindrome.cpp
         main.cpp src/SortedStrings.cpp src/Person.cpp src/ReversibleString.cpp src/Person2.cpp src/Person3.cpp src/incognizable.cpp src/LectureTitle.cpp src/FunctionParts.cpp)
+FILE(COPY hello.txt DESTINATION "${CMAKE_BINARY_DIR}")
+FILE(COPY output.txt DESTINATION "${CMAKE_BINARY_DIR}")

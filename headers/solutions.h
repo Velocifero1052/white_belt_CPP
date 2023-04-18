@@ -13,6 +13,8 @@
 #include <set>
 #include <numeric>
 #include <algorithm>
+#include <iomanip>
+#include <fstream>
 
 void square_equation_solution(){
     double a, b, c;
@@ -525,5 +527,42 @@ void sort_case_insensitive(){
     }
 }
 
+void print_vector(const std::vector<int>& v){
+    bool first = true;
+    for(int i : v){
+        if(first){
+            std::cout << std::setw(10) <<  i;
+            first = false;
+        }else{
+            std::cout << " " << std::setw(10) << i;
+        }
+    }
+}
+
+void ReadAll(const std::string& path){
+    int n, m;
+    std::ifstream input(path);
+    if(input){
+        input >> n >> m;
+        std::vector<int> line_buf(m);
+
+        for(int i = 0; i < n; i++){
+            bool first = true;
+            for(int j = 0; j < m; j++){
+                if(first){
+                    input >> line_buf[j];
+                    first = false;
+                }else{
+                    input.ignore(1);
+                    input >> line_buf[j];
+                }
+            }
+            print_vector(line_buf);
+            if(i != n - 1)
+                std::cout << '\n';
+        }
+
+    }
+}
 
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
