@@ -565,4 +565,44 @@ void ReadAll(const std::string& path){
     }
 }
 
+
+struct student{
+    std::string name;
+    std::string lastname;
+    int day{};
+    int month{};
+    int year{};
+};
+
+
+void students_birth_dates(){
+    int number_of_commands;
+    std::cin >> number_of_commands;
+    std::vector<student> students(number_of_commands);
+    std::string name, lastname;
+    int day, month, year;
+    for(int i = 0; i < number_of_commands; i++){
+        std::cin >> name >> lastname >> day >> month >> year;
+        students[i] = {name, lastname, day, month, year};
+    }
+    std::cin >> number_of_commands;
+
+    for(int i = 0; i < number_of_commands; i++){
+        std::string command;
+        int number;
+        std::cin >> command >> number;
+        if(number > students.size() || number <= 0) {
+            std::cout << "bad request\n";
+            continue;
+        }
+        if(command == "name"){
+            std::cout << students[number-1].name << " " << students[number-1].lastname << '\n';
+        }else if(command == "date"){
+            std::cout << students[number-1].day << "." << students[number-1].month << "." << students[number-1].year << '\n';
+        }else{
+            std::cout << "bad request\n";
+        }
+    }
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H
