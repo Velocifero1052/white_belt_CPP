@@ -6,27 +6,69 @@ using std::string;
 using std::vector;
 using std::cin;
 using std::cout;
+using std::endl;
 
 class Rational {
 public:
     Rational() {
-        // Реализуйте конструктор по умолчанию
+        numerator = 0;
+        denominator = 1;
     }
 
     Rational(int numerator, int denominator) {
-        // Реализуйте конструктор
+
+        bool numerator_positive = numerator > 0;
+        bool denominator_positive = denominator > 0;
+
+        int a_num = abs(numerator);
+        int a_den = abs(denominator);
+
+        int common_divider = gcd(a_num, a_den);
+        if(common_divider != 1){
+
+            while(a_num % common_divider == 0){
+                a_num /= common_divider;
+            }
+            while(a_den % common_divider == 0){
+                a_den /= common_divider;
+            }
+        }
+
+        this->numerator = a_num;
+        this->denominator = a_den;
+
+        if(this->numerator == 0){
+            this->denominator = 1;
+        }
+
+        if(this->denominator < 0){
+            this->numerator = -this->numerator;
+            this->denominator = -this->denominator;
+        }
+
     }
 
     int Numerator() const {
         // Реализуйте этот метод
+        return numerator;
     }
 
     int Denominator() const {
         // Реализуйте этот метод
+        return denominator;
     }
 
 private:
     // Добавьте поля
+    int numerator;
+    int denominator;
+
+    int gcd(int a, int b) {
+        if (b == 0)
+            return a;
+        return gcd(b, a % b);
+    }
+
 };
 
 int main() {
@@ -50,6 +92,7 @@ int main() {
     {
         const Rational r(-4, 6);
         if (r.Numerator() != -2 || r.Denominator() != 3) {
+            cout << r.Numerator() << endl;
             cout << "Rational(-4, 6) != -2/3" << endl;
             return 3;
         }
