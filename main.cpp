@@ -15,46 +15,45 @@ public:
         denominator = 1;
     }
 
-    Rational(int numerator, int denominator) {
+    Rational(int numerator_, int denominator_) {
 
-        bool numerator_positive = numerator > 0;
-        bool denominator_positive = denominator > 0;
+        bool numerator_positive = numerator_ > 0;
+        bool denominator_positive = denominator_ > 0;
 
-        int a_num = abs(numerator);
-        int a_den = abs(denominator);
+        int a_num = abs(numerator_);
+        int a_den = abs(denominator_);
 
         int common_divider = gcd(a_num, a_den);
-        if(common_divider != 1){
 
-            while(a_num % common_divider == 0){
+        if(common_divider != 1){
+            while(a_num % common_divider == 0 && a_den % common_divider == 0){
                 a_num /= common_divider;
-            }
-            while(a_den % common_divider == 0){
                 a_den /= common_divider;
             }
         }
 
-        this->numerator = a_num;
-        this->denominator = a_den;
+        numerator = a_num;
+        denominator = a_den;
 
-        if(this->numerator == 0){
-            this->denominator = 1;
+        numerator = numerator_positive ? numerator : -numerator;
+        denominator = denominator_positive ? denominator : -denominator;
+
+        if(denominator < 0){
+            denominator = -denominator;
+            numerator = -numerator;
         }
 
-        if(this->denominator < 0){
-            this->numerator = -this->numerator;
-            this->denominator = -this->denominator;
+        if(numerator == 0){
+            denominator = 1;
         }
 
     }
 
     int Numerator() const {
-        // Реализуйте этот метод
         return numerator;
     }
 
     int Denominator() const {
-        // Реализуйте этот метод
         return denominator;
     }
 
@@ -92,12 +91,10 @@ int main() {
     {
         const Rational r(-4, 6);
         if (r.Numerator() != -2 || r.Denominator() != 3) {
-            cout << r.Numerator() << endl;
             cout << "Rational(-4, 6) != -2/3" << endl;
             return 3;
         }
     }
-
     {
         const Rational r(4, -6);
         if (r.Numerator() != -2 || r.Denominator() != 3) {
@@ -115,6 +112,14 @@ int main() {
     }
 
     {
+        const Rational r(-2, -4);
+        if (r.Numerator() != 1 || r.Denominator() != 2) {
+            cout << "Rational(-2, -4) != 1/2" << endl;
+            return 4;
+        }
+    }
+
+    {
         const Rational defaultConstructed;
         if (defaultConstructed.Numerator() != 0 || defaultConstructed.Denominator() != 1) {
             cout << "Rational() != 0/1" << endl;
@@ -122,8 +127,9 @@ int main() {
         }
     }
 
-    cout << "OK" << endl;
 
+
+    cout << "OK" << endl;
 
     return 0;
 }
