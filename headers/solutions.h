@@ -605,4 +605,11 @@ void students_birth_dates(){
     }
 }
 
+
+void EnsureEqual(const std::string& left, const std::string& right){
+    if(left != right){
+        throw std::runtime_error(left + " != " + right);
+    }
+}
+
 #endif //WHITE_BELT_CPP_SOLUTIONS_H

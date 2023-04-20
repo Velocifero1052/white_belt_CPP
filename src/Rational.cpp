@@ -16,7 +16,8 @@ public:
     }
 
     Rational(int numerator_, int denominator_) {
-
+        if(denominator_ == 0)
+            throw std::invalid_argument("");
         bool numerator_positive = numerator_ > 0;
         bool denominator_positive = denominator_ > 0;
 
@@ -85,6 +86,9 @@ public:
     }
 
     Rational operator/(const Rational& rhs)const{
+        if(rhs.Numerator() == 0){
+            throw std::domain_error("");
+        }
         return {this->numerator * rhs.denominator, this->denominator * rhs.numerator};
     }
 
@@ -326,5 +330,18 @@ int tests(){
         }
     }
 
+    try {
+        Rational r(1, 0);
+        std::cout << "Doesn't throw in case of zero denominator" << std::endl;
+        return 1;
+    } catch (std::invalid_argument&) {
+    }
+
+    try {
+        auto x = Rational(1, 2) / Rational(0, 1);
+        std::cout << "Doesn't throw in case of division by zero" << std::endl;
+        return 2;
+    } catch (std::domain_error&) {
+    }
     std::cout << "OK" << std::endl;
 }
