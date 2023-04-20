@@ -2,6 +2,7 @@
 // Created by Legion on 4/20/2023.
 //
 #include <algorithm>
+#include <iostream>
 
 class Rational {
 public:
@@ -85,6 +86,26 @@ public:
 
     bool operator==(const Rational& rhs) const{
         return this->numerator == rhs.numerator && this->denominator == rhs.denominator;
+    }
+
+
+    friend std::istream& operator>>(std::istream& stream, Rational& r) {
+        int prev_numerator = r.numerator;
+        int prev_denominator = r.denominator;
+        stream >> r.numerator;
+        stream.ignore(1);
+        stream >> r.denominator;
+
+        if(r.numerator != prev_numerator || r.denominator != prev_denominator) {
+            auto new_r = Rational(r.numerator, r.denominator);
+            r = new_r;
+        }
+        return stream;
+    }
+
+    friend std::ostream& operator<<(std::ostream& stream, const Rational& r) {
+        stream << r.numerator << "/" << r.denominator;
+        return stream;
     }
 
 private:
