@@ -72,31 +72,35 @@ public:
 
     friend std::istream& operator>>(std::istream& stream, Date& date) {
 
-        int prev_year= date.GetYear();
-        int prev_month = date.GetMonth();
-        int prev_day = date.GetDay();
-
         string string_buffer;
-
         stream >> string_buffer;
+        stringstream ss(string_buffer);
 
-        try{
-            date.year = stoi(string_buffer);
-        }catch(std::exception& e){
+        ss >> date.year;
+        if ((char)ss.peek() != '-')
+            throw std::domain_error("Wrong date format: " + string_buffer);
+        ss.ignore(1);
+        if(ss.eof()){
+            throw std::domain_error("Wrong date format: " + string_buffer);
+        }
+        ss >> date.month;
+
+        if ((char)ss.peek() != '-')
+            throw std::domain_error("Wrong date format: " + string_buffer);
+
+        ss.ignore(1);
+
+        if(string_buffer.find('-', string_buffer.length() - 1) == string_buffer.length() - 1){
             throw std::domain_error("Wrong date format: " + string_buffer);
         }
 
-        stream.ignore(1);
+        ss >> date.day;
 
-        stream >> date.month;
+        if(!ss.eof())
+            throw std::domain_error("Wrong date format: " + string_buffer);
 
-        stream.ignore(1);
-        stream >> date.day;
-
-        if(date.year != prev_year || date.month != prev_month || date.day != prev_day) {
-            auto new_date = Date(date.year, date.month, date.day);
-            date = new_date;
-        }
+        auto new_date = Date(date.year, date.month, date.day);
+        date = new_date;
 
         return stream;
     }
@@ -162,13 +166,15 @@ int main() {
         size_t number_of_arguments = std::count(line.begin(), line.end(), ' ') + 1;
         stringstream ss = stringstream(line);
         string command;
+
         ss >> command;
 
         if (command == "Add") {
             Date date;
             string event;
             try {
-                ss >> date >> event;
+                ss >> date;
+                ss >> event;
             }catch(const std::invalid_argument& exception){
                 cout << exception.what() << '\n';
                 return 0;
@@ -183,6 +189,9 @@ int main() {
                 ss >> date;
             }catch(const std::invalid_argument& exception){
                 cout << exception.what() << '\n';
+            }catch(const std::domain_error& exception){
+                cout << exception.what() << '\n';
+                return 0;
             }
             int number_of_events = db.Find(date);
             if(number_of_events != 0){
@@ -203,12 +212,18 @@ int main() {
                   }catch(const std::invalid_argument& exception){
                       cout << exception.what() << '\n';
                       return 0;
+                  }catch(const std::domain_error& exception){
+                      cout << exception.what() << '\n';
+                      return 0;
                   }
             }else{
                 string event;
                 try {
                     ss >> date >> event;
                 }catch(const std::invalid_argument& exception){
+                    cout << exception.what() << '\n';
+                    return 0;
+                }catch(const std::domain_error& exception){
                     cout << exception.what() << '\n';
                     return 0;
                 }
@@ -222,7 +237,7 @@ int main() {
                 }
 
             }
-        } else if (number_of_arguments == 1) {
+        } else if (command.empty()) {
             continue;
         } else {
             cout << "Unknown command: " << command << '\n';
